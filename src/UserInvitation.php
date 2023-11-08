@@ -38,6 +38,16 @@ class UserInvitation
         return $this->interface->invite($email, $referral, $expires, $beforeSave);
     }
 
+    public function multiple(bool $multiple = true): InvitationInterface
+    {
+        return $this->interface->multiple($multiple);
+    }
+
+    public function count(): int
+    {
+        return $this->interface->count();
+    }
+
     /**
      * @param $code
      * @return mixed
