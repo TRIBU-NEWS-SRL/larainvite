@@ -6,13 +6,14 @@ User (signup) invitation package for laravel
 [![Total Downloads](https://poser.pugx.org/junaidnasir/larainvite/downloads)](https://packagist.org/packages/junaidnasir/larainvite)
 [![Monthly Downloads](https://poser.pugx.org/junaidnasir/larainvite/d/monthly)](https://packagist.org/packages/junaidnasir/larainvite)
 
+- v6 support laravel 10
 - v5 support laravel 9
 - v4 support laravel 8
 - v3 support laravel 5.8+, laravel 6.0 and laravel 7.0
 - v2 support laravel 5.0 to 5.8
 - v1 support laravel 4.*
 
-larainvite is a ***laravel*** package, to allow existing users to invite others by email.
+larainvite is a ***[Laravel](https://laravel.com)*** package, to allow existing users to invite others by email.
 
 It generates referral code and keep track of status.
 
