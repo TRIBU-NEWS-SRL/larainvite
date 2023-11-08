@@ -112,7 +112,7 @@ class LaraInvite implements InvitationInterface
     /**
      * {@inheritdoc}
      */
-    public function get()
+    public function get(): Junaidnasir\Larainvite\Models\LaraInviteModel
     {
         return $this->instance;
     }
@@ -120,7 +120,7 @@ class LaraInvite implements InvitationInterface
     /**
      * {@inheritdoc}
      */
-    public function status()
+    public function status(): string
     {
         if ($this->isValid()) {
             return $this->instance->status;
@@ -150,7 +150,7 @@ class LaraInvite implements InvitationInterface
     /**
      * {@inheritdoc}
      */
-    public function cancel()
+    public function cancel(): bool
     {
         if ($this->isValid()) {
             $this->instance->status = 'canceled';
@@ -167,7 +167,7 @@ class LaraInvite implements InvitationInterface
     /**
      * {@inheritdoc}
      */
-    public function isExisting()
+    public function isExisting(): bool
     {
         return $this->exist;
     }
@@ -175,7 +175,7 @@ class LaraInvite implements InvitationInterface
     /**
      * {@inheritdoc}
      */
-    public function isValid()
+    public function isValid(): bool
     {
         return ! $this->isExpired() && $this->isPending();
     }
@@ -183,7 +183,7 @@ class LaraInvite implements InvitationInterface
     /**
      * {@inheritdoc}
      */
-    public function isExpired()
+    public function isExpired(): bool
     {
         if (! $this->isExisting()) {
             return true;
@@ -202,19 +202,19 @@ class LaraInvite implements InvitationInterface
     /**
      * {@inheritdoc}
      */
-    public function isPending()
+    public function isPending(): bool
     {
         if (! $this->isExisting()) {
             return false;
         }
 
-        return $this->instance->status === 'pending' || $this->instance->multiple();
+        return $this->instance->status === 'pending';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function isAllowed($email)
+    public function isAllowed($email): bool
     {
         return $this->isValid() && ($this->instance->email === $email);
     }
