@@ -27,6 +27,18 @@ class LaraInvite implements InvitationInterface
     private $code = null;
 
     /**
+     * Allow multiple use of code.
+     * @var bool
+     */
+    private $multiple = false;
+
+    /**
+     * Number of times code used.
+     * @var int
+     */
+    private $multipleCount = 0;
+
+    /**
      * Status of code existing in DB.
      * @var bool
      */
@@ -53,7 +65,7 @@ class LaraInvite implements InvitationInterface
     /**
      * {@inheritdoc}
      */
-    public function invite($email, $referral, $expires, $beforeSave = null)
+    public function invite(string $email, int $referral, DateTime $expires)
     {
         $this->readyPayload($email, $referral, $expires)
              ->createInvite($beforeSave);
@@ -66,7 +78,25 @@ class LaraInvite implements InvitationInterface
     /**
      * {@inheritdoc}
      */
-    public function setCode($code)
+    public function multiple(bool $multiple = true): InvitationInterface
+    {
+        $this->multiple = $multiple;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function count(): int
+    {
+        return $this->multipleCount;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCode(string $code)
     {
         $this->code = $code;
         try {
@@ -102,10 +132,10 @@ class LaraInvite implements InvitationInterface
     /**
      * {@inheritdoc}
      */
-    public function consume()
+    public function consume(): bool
     {
         if ($this->isValid()) {
-            $this->instance->status = 'successful';
+            $this->instance->status = $this->instance->multiple() ? 'pending' : 'successful';
             $this->instance->save();
 
             InvitationConsumed::dispatch($this->instance);
@@ -177,7 +207,7 @@ class LaraInvite implements InvitationInterface
             return false;
         }
 
-        return ($this->instance->status === 'pending') ? true : false;
+        return $this->instance->status === 'pending' || $this->instance->multiple();
     }
 
     /**
@@ -226,6 +256,10 @@ class LaraInvite implements InvitationInterface
         $this->instance->user_id = $this->referral;
         $this->instance->valid_till = $this->expires;
         $this->instance->code = $code;
+
+        if ($this->multiple) {
+            $this->instance->multiple = true;
+        }
 
         if ($beforeSave !== null) {
             if ($beforeSave instanceof Closure) {
