@@ -13,7 +13,7 @@ interface InvitationInterface
      * @param DateTime $expires    Expiration Date Time
      * @return string               Referral code
      */
-    public function invite(string $email, int $referral, DateTime $expires);
+    public function invite(string $email, int $referral, DateTime $expires, $beforeSave = null): string;
 
     /**
      * Set the code for multiple use

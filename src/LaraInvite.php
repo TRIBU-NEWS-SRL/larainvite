@@ -66,7 +66,7 @@ class LaraInvite implements InvitationInterface
     /**
      * {@inheritdoc}
      */
-    public function invite(string $email, int $referral, DateTime $expires)
+    public function invite(string $email, int $referral, DateTime $expires, $beforeSave = null): string
     {
         $this->readyPayload($email, $referral, $expires)
              ->createInvite($beforeSave);
@@ -237,7 +237,7 @@ class LaraInvite implements InvitationInterface
      * @return self
      * @throws InvalidTokenException
      */
-    private function createInvite($beforeSave = null)
+    private function createInvite($beforeSave = null): LaraInvite
     {
         $code = md5(uniqid('', true));
 
@@ -251,7 +251,7 @@ class LaraInvite implements InvitationInterface
      * @return self
      * @throws InvalidTokenException
      */
-    private function save($code, $beforeSave = null)
+    private function save($code, $beforeSave = null): LaraInvite
     {
         $this->getModelInstance();
         $this->instance->email = $this->email;
@@ -284,7 +284,7 @@ class LaraInvite implements InvitationInterface
      * @return self
      * @throws InvalidTokenException
      */
-    private function getModelInstance($allowNew = true)
+    private function getModelInstance($allowNew = true): LaraInvite
     {
         $model = config('larainvite.InvitationModel');
         if ($allowNew) {
@@ -309,7 +309,7 @@ class LaraInvite implements InvitationInterface
      * @param  DateTime $expires  expiration of token
      * @return self
      */
-    private function readyPayload($email, $referral, $expires)
+    private function readyPayload($email, $referral, $expires): LaraInvite
     {
         $this->email = $email;
         $this->referral = $referral;
