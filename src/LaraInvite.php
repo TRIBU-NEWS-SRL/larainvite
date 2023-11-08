@@ -136,8 +136,8 @@ class LaraInvite implements InvitationInterface
     public function consume(): bool
     {
         if ($this->isValid()) {
-            $this->instance->status = $this->instance->multiple() ? 'pending' : 'successful';
-            $this->instance->multiple_count = $this->instance->multiple() ? $this->instance->multiple_count + 1 : 0;
+            $this->instance->status = $this->instance->multiple ? 'pending' : 'successful';
+            $this->instance->multiple_count = $this->instance->multiple ? $this->instance->multiple_count + 1 : 0;
             $this->instance->save();
 
             InvitationConsumed::dispatch($this->instance);
