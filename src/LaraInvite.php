@@ -2,6 +2,7 @@
 
 namespace Junaidnasir\Larainvite;
 
+use DateTime;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Junaidnasir\Larainvite\Events\InvitationCanceled;
 use Junaidnasir\Larainvite\Events\InvitationConsumed;

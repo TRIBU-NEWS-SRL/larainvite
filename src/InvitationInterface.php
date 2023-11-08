@@ -2,6 +2,8 @@
 
 namespace Junaidnasir\Larainvite;
 
+use DateTime;
+
 interface InvitationInterface
 {
     /**
